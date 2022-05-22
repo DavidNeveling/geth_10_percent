@@ -1,6 +1,6 @@
 import os, subprocess, gen_genesis
 datadir = '/opt/ethereum/data'
-if os.path.exists(datadir):
+if not os.path.exists(datadir):
     os.makedirs(datadir)
 password = 'a'
 tmpfile = 'tmp'
