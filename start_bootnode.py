@@ -1,4 +1,4 @@
-import os, subprocess, gen_genesis
+import os, subprocess, gen_genesis, time
 datadir = '/opt/ethereum/data'
 if not os.path.exists(datadir):
     os.makedirs(datadir)
@@ -8,6 +8,8 @@ file = open(tmpfile, 'w')
 password_string = password + '\n' + password + '\n'
 file.write(password_string)
 file.close()
+while not os.path.exists(tmpfile):
+    time.sleep(0.1)
 output = subprocess.run('./geth account new --datadir ' + datadir + ' < ' + tmpfile, capture_output=True)
 print(output)
 # 1.1) snag the account/secret (without the 0x - like 87e4146428136a756be8e96aca006d87e459e457)
