@@ -11,7 +11,7 @@ file.close()
 while not os.path.exists(tmpfile):
     time.sleep(0.1)
 output = subprocess.run('./geth account new --datadir ' + datadir + ' < ' + tmpfile, capture_output=True, shell=True)
-print(output)
+print(output.stdout)
 # 1.1) snag the account/secret (without the 0x - like 87e4146428136a756be8e96aca006d87e459e457)
 # 2) vi /opt/ethereum/genesis.json
 # 2.1) add the genesis info for the extradata, alloc and the balance of 0xfffffffffffffffffffffffffffffff
