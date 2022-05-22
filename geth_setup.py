@@ -3,5 +3,5 @@ geth_url = 'https://gethstore.blob.core.windows.net/builds/geth-linux-amd64-1.10
 geth_file_name = str(geth_url[geth_url.rfind('/') + 1:])
 os.system('wget ' + str(geth_url))
 os.system('tar -xvf ' + geth_file_name)
-shutil.move(geth_file_name + '/geth', '.')
+shutil.copy(geth_file_name + '/geth', '.')
 shutil.rmtree(geth_file_name)
