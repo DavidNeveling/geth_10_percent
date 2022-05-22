@@ -10,7 +10,7 @@ file.write(password_string)
 file.close()
 while not os.path.exists(tmpfile):
     time.sleep(0.1)
-output = subprocess.run(os.getcwd() + '/geth account new --datadir ' + datadir + ' < ' + tmpfile, capture_output=True)
+output = subprocess.run('./geth account new --datadir ' + datadir + ' < ' + tmpfile, capture_output=True, shell=True)
 print(output)
 # 1.1) snag the account/secret (without the 0x - like 87e4146428136a756be8e96aca006d87e459e457)
 # 2) vi /opt/ethereum/genesis.json
