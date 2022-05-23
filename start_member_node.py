@@ -1,5 +1,5 @@
 import os
-datadir = './test22/data'
+datadir = './test3/data'
 remotevhost = '192-53-166-228.ip.linodeusercontent.com'
 selfvhost = '192-53-166-228.ip.linodeusercontent.com'
 os.system('wget -O genesis2.json ' + remotevhost + ':8000/genesis.json')
