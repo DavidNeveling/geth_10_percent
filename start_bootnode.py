@@ -1,4 +1,17 @@
-import os, subprocess, gen_genesis, time
+import os, subprocess, gen_genesis, time, threading, signal, sys
+
+# def signal_handler(sig, frame):
+#     sys.exit(0)
+
+def launch_server():
+    os.system('python3 -m http.server')
+
+def launch_node(datadir):
+    os.system('geth --datadir ' + datadir + ' --networkid 1231234512 --nat extip:`curl ipinfo.io/ip` --http.api web3,eth,debug,personal,net,admin,miner --http --http.addr "0.0.0.0" --http.port 8080 --http.corsdomain "*" --ipcdisable --port 30304 --verbosity 4 --http.vhosts "50-116-24-194.ip.linodeusercontent.com" --netrestrict "20.246.80.0/24","216.227.194.0/24","20.246.82.0/24","192.53.166.0/24","20.246.12.0/24" --mine --allow-insecure-unlock 2>/var/log/gethConsole.log 2>/var/log/gethConsole.log')
+
+
+# signal.signal(signal.SIGINT, signal_handler)
+
 datadir = '/opt/ethereum/data'
 if not os.path.exists(datadir):
     os.makedirs(datadir)
@@ -11,9 +24,11 @@ file.close()
 while not os.path.exists(tmpfile):
     time.sleep(0.1)
 output = subprocess.run('./geth account new --datadir ' + datadir + ' < ' + tmpfile, capture_output=True, shell=True)
-print(output.stdout)
-# 1.1) snag the account/secret (without the 0x - like 87e4146428136a756be8e96aca006d87e459e457)
-# 2) vi /opt/ethereum/genesis.json
-# 2.1) add the genesis info for the extradata, alloc and the balance of 0xfffffffffffffffffffffffffffffff
-# os.system('geth init --datadir /opt/ethereum/data /opt/ethereum/genesis.json')
-# os.system('geth --datadir /opt/ethereum/data --networkid 1231234512 --nat extip:`curl ipinfo.io/ip` --http.api web3,eth,debug,personal,net,admin,miner --http --http.addr "0.0.0.0" --http.port 8080 --http.corsdomain "*" --ipcdisable --port 30304 --verbosity 4 --http.vhosts "50-116-24-194.ip.linodeusercontent.com" --netrestrict "20.246.80.0/24","216.227.194.0/24","20.246.82.0/24","192.53.166.0/24","20.246.12.0/24" --mine --allow-insecure-unlock 2>/var/log/gethConsole.log 2>/var/log/gethConsole.log')
+stdout = output.stdout.decode('ascii')
+stdout = stdout[stdout.find('Public address'):]
+stdout = stdout[:stdout.find('\n')]
+account_address = stdout[stdout.find(' ') + 1:]
+gen_genesis.create_genesis_file(account_address)
+os.system('geth init --datadir ' + datadir + ' genesis.json')
+threading.Thread(target=launch_server, args=())
+threading.Thread(target=launch_node, args=(datadir,))
