@@ -12,7 +12,7 @@ def launch_node(datadir):
 
 # signal.signal(signal.SIGINT, signal_handler)
 
-datadir = '/opt/ethereum/data'
+datadir = './test/data'
 if not os.path.exists(datadir):
     os.makedirs(datadir)
 password = 'a'
