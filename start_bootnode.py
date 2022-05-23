@@ -30,5 +30,7 @@ stdout = stdout[:stdout.find('\n')]
 account_address = stdout[stdout.find(' ') + 1:]
 gen_genesis.create_genesis_file(account_address)
 os.system('geth init --datadir ' + datadir + ' genesis.json')
-threading.Thread(target=launch_server, args=())
-threading.Thread(target=launch_node, args=(datadir,))
+x = threading.Thread(target=launch_server, args=())
+y = threading.Thread(target=launch_node, args=(datadir,))
+y.join()
+x.join()
