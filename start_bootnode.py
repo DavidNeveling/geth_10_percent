@@ -14,7 +14,7 @@ def launch_node(datadir, vhost, restrict_list):
 
 datadir = './test/data'
 vhost = '192-53-166-228.ip.linodeusercontent.com'
-restrict_list = "20.246.80.0/24","216.227.194.0/24","20.246.82.0/24","192.53.166.0/24","20.246.12.0/24"
+restrict_list = '"20.246.80.0/24","216.227.194.0/24","20.246.82.0/24","192.53.166.0/24","20.246.12.0/24"'
 if not os.path.exists(datadir):
     os.makedirs(datadir)
 password = 'a'
